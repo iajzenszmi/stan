@@ -1,0 +1,172 @@
+ian@ian-Latitude-E7440:~$ gcc stan.c
+ian@ian-Latitude-E7440:~$ ./a.out
+The result is 12
+ian@ian-Latitude-E7440:~$ cat stan.c
+//program edited by  Ian Martin Ajzenszmidt, Melbourne  Australia
+
+#include <stdio.h>
+#include <stdlib.h>
+/* function statement */
+int multiply(int a, int b);
+
+/* function definition */
+int multiply(int a, int b) {
+    return a * b;
+}
+
+int main() {
+    int result = multiply(3, 4);
+    printf("The result is %d\n", result);
+    return 0;
+}
+
+     
+ian@ian-Latitude-E7440:~$ gcc stan.c -o stan
+ian@ian-Latitude-E7440:~$ ./stan
+The result is 12
+ian@ian-Latitude-E7440:~$ gcc stan.c -S
+ian@ian-Latitude-E7440:~$ gcc stan.s -o stans
+ian@ian-Latitude-E7440:~$ ./stans
+The result is 12
+ian@ian-Latitude-E7440:~$ cat stan.s
+	.file	"stan.c"
+	.text
+	.globl	multiply
+	.type	multiply, @function
+multiply:
+.LFB6:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	movl	%edi, -4(%rbp)
+	movl	%esi, -8(%rbp)
+	movl	-4(%rbp), %eax
+	imull	-8(%rbp), %eax
+	popq	%rbp
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE6:
+	.size	multiply, .-multiply
+	.section	.rodata
+.LC0:
+	.string	"The result is %d\n"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB7:
+	.cfi_startproc
+	endbr64
+	pushq	%rbp
+	.cfi_def_cfa_offset 16
+	.cfi_offset 6, -16
+	movq	%rsp, %rbp
+	.cfi_def_cfa_register 6
+	subq	$16, %rsp
+	movl	$4, %esi
+	movl	$3, %edi
+	call	multiply
+	movl	%eax, -4(%rbp)
+	movl	-4(%rbp), %eax
+	movl	%eax, %esi
+	leaq	.LC0(%rip), %rax
+	movq	%rax, %rdi
+	movl	$0, %eax
+	call	printf@PLT
+	movl	$0, %eax
+	leave
+	.cfi_def_cfa 7, 8
+	ret
+	.cfi_endproc
+.LFE7:
+	.size	main, .-main
+	.ident	"GCC: (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0"
+	.section	.note.GNU-stack,"",@progbits
+	.section	.note.gnu.property,"a"
+	.align 8
+	.long	1f - 0f
+	.long	4f - 1f
+	.long	5
+0:
+	.string	"GNU"
+1:
+	.align 8
+	.long	0xc0000002
+	.long	3f - 2f
+2:
+	.long	0x3
+3:
+	.align 8
+4:
+ian@ian-Latitude-E7440:~$ sloccount stan.c
+Have a non-directory at the top, so creating directory top_dir
+Adding /home/ian/stan.c to top_dir
+Categorizing files.
+Finding a working MD5 command....
+Found a working MD5 command.
+Computing results.
+
+
+SLOC	Directory	SLOC-by-Language (Sorted)
+11      top_dir         ansic=11
+
+
+Totals grouped by language (dominant language first):
+ansic:           11 (100.00%)
+
+
+
+
+Total Physical Source Lines of Code (SLOC)                = 11
+Development Effort Estimate, Person-Years (Person-Months) = 0.00 (0.02)
+ (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
+Schedule Estimate, Years (Months)                         = 0.05 (0.58)
+ (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
+Estimated Average Number of Developers (Effort/Schedule)  = 0.04
+Total Estimated Cost to Develop                           = $ 237
+ (average salary = $56,286/year, overhead = 2.40).
+SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
+SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.
+SLOCCount comes with ABSOLUTELY NO WARRANTY, and you are welcome to
+redistribute it under certain conditions as specified by the GNU GPL license;
+see the documentation for details.
+Please credit this data as "generated using David A. Wheeler's 'SLOCCount'."
+ian@ian-Latitude-E7440:~$ sloccount stan.s
+Have a non-directory at the top, so creating directory top_dir
+Adding /home/ian/stan.s to top_dir
+Categorizing files.
+Finding a working MD5 command....
+Found a working MD5 command.
+Computing results.
+
+
+SLOC	Directory	SLOC-by-Language (Sorted)
+74      top_dir         asm=74
+
+
+Totals grouped by language (dominant language first):
+asm:             74 (100.00%)
+
+
+
+
+Total Physical Source Lines of Code (SLOC)                = 74
+Development Effort Estimate, Person-Years (Person-Months) = 0.01 (0.16)
+ (Basic COCOMO model, Person-Months = 2.4 * (KSLOC**1.05))
+Schedule Estimate, Years (Months)                         = 0.10 (1.23)
+ (Basic COCOMO model, Months = 2.5 * (person-months**0.38))
+Estimated Average Number of Developers (Effort/Schedule)  = 0.13
+Total Estimated Cost to Develop                           = $ 1,755
+ (average salary = $56,286/year, overhead = 2.40).
+SLOCCount, Copyright (C) 2001-2004 David A. Wheeler
+SLOCCount is Open Source Software/Free Software, licensed under the GNU GPL.
+SLOCCount comes with ABSOLUTELY NO WARRANTY, and you are welcome to
+redistribute it under certain conditions as specified by the GNU GPL license;
+see the documentation for details.
+Please credit this data as "generated using David A. Wheeler's 'SLOCCount'."
+ian@ian-Latitude-E7440:~$ 
